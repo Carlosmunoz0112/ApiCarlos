@@ -16,24 +16,21 @@ const usuarioGet = async(req, res = response) =>{
 }
 
 //Método POST de la api
-const usuarioPost = async (req, res = response) => {
-    const { nombre, password, rol, estado } = req.body;
-    console.log(req.body)
-    const usuario = new Usuario({ nombre, password, rol, estado });
+const usuarioPost = async(req, res) => {
+    let mensaje = 'Inserción Exitosa'
+    const body = req.body //Captura de atributos
     try {
-        await usuario.save();
-        res.status(201).json({
-            ok: true,
-            msg: 'Usuario creado correctamente'
-        });
+        const usuario = new Usuario(body) //Instanciando el objeto
+        await usuario.save() //Inserta en la colección
     } catch (error) {
-        res.status(500).json({
-            ok: false,
-            msg: 'Error al crear el usuario',
-            error
-        });
+        mensaje = error
+        console.log(error)
     }
-};
+        res.json({
+        msg: mensaje
+    })
+}
+
 //Modifcación
 const usuarioPut = async(req, res = response) => {
     const {nombre, password, rol, estado} = req.query

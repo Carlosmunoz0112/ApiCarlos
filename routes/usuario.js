@@ -14,4 +14,6 @@ route.put('/', usuarioPut) //Modificar Datos
 
 route.delete('/', usuarioDelete) //Eliminar Datos
 
-module.exports = route
+module.exports = route;
+
+
