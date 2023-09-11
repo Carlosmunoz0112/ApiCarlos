@@ -1,45 +1,43 @@
-const {response} = require('express')
+const { response } = require('express')
 
-//Importación de los modelos
-const Usuario = require('../models/usuario')
+// Importación de los modelos
+const Producto = require('../models/producto')
 
-//Método GET de la API
-const usuarioGet = async(req, res = response) =>{
-    //const {nombre} = req.query //Desestructuración
+// Método GET de la API
+const productoGet = async (req, res = response) => {
+    // Consultar todos los productos
+    const productos = await Producto.find()
 
-    //Consultar todos los usuarios
-    const usuarios = await Usuario.find()
-
-    res.json({  //Respuesta en JSON
-        usuarios
-    })   
+    res.json({  // Respuesta en JSON
+        productos
+    })
 }
 
-//Método POST de la api
-const usuarioPost = async(req, res) => {
+// Método POST de la API
+const productoPost = async (req, res) => {
     let mensaje = 'Inserción Exitosa'
-    const body = req.query //Captura de atributos
+    const body = req.query // Captura de atributos
     try {
-        const usuario = new Usuario(body) //Instanciando el objeto
-        await usuario.save() //Inserta en la colección
+        const producto = new Producto(body) // Instanciando el objeto
+        await producto.save() // Inserta en la colección
     } catch (error) {
         mensaje = error
         console.log(error)
     }
-        res.json({
+    res.json({
         msg: mensaje
     })
 }
 
-//Modifcación
-const usuarioPut = async(req, res = response) => {
-    const {nombre, password, rol, estado} = req.query
+// Modificación
+const productoPut = async (req, res = response) => {
+    const { nombre, precio, descripcion } = req.query
     let mensaje = 'Modificación exitosa'
-    try{
-         await Usuario.findOneAndUpdate({nombre: nombre}, 
-            {password: password, rol:rol, estado:estado})
+    try {
+        await Producto.findOneAndUpdate({ nombre: nombre },
+            { precio: precio, descripcion: descripcion })
     }
-    catch(error){
+    catch (error) {
         mensaje = 'Se presentaron problemas en la modificación.'
     }
 
@@ -48,16 +46,16 @@ const usuarioPut = async(req, res = response) => {
     })
 }
 
-//Eliminación
-const usuarioDelete = async(req, res) => {
+// Eliminación
+const productoDelete = async (req, res) => {
 
-    const {_id} = req.query
-    let mensaje = 'La eliminiación se efectuó exitosamente.'
+    const { _id } = req.query
+    let mensaje = 'La eliminación se efectuó exitosamente.'
 
-    try{
-        const usuario = await Usuario.deleteOne({_id: _id})
+    try {
+        const producto = await Producto.deleteOne({ _id: _id })
     }
-    catch(error){
+    catch (error) {
         mensaje = 'Se presentaron problemas en la eliminación.'
     }
 
@@ -67,8 +65,8 @@ const usuarioDelete = async(req, res) => {
 }
 
 module.exports = {
-    usuarioGet,
-    usuarioPost,
-    usuarioPut,
-    usuarioDelete
+    productoGet,
+    productoPost,
+    productoPut,
+    productoDelete
 }

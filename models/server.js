@@ -13,6 +13,13 @@ class Server{
         this.usuarioPath = '/api/usuario' //Ruta pública
         this.conectarDB()
         this.routes()
+
+        this.app = express()
+        this.port = process.env.PORT //Capturando variable puerto
+        this.usuarioPath = '/api/productos' //Ruta pública
+        this.conectarDB()
+        this.routes()
+
     }
 
     listen(){
@@ -23,6 +30,8 @@ class Server{
 
     routes(){
         this.app.use(this.usuarioPath, require('../routes/usuario'))
+
+        this.app.use(this.productosPath, require('../routes/productos'))
     }
     
 
